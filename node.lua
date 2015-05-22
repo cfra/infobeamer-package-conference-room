@@ -290,16 +290,17 @@ local content = switcher(function()
         -- Update date in the prepare function and text in the draw function
         time = 10,
         prepare = function()
+        end;
+        draw = function()
             local start_date = os.time({tz='CEST', day=22, month=5, year=2015, hour=22, min=45, sec=0})
             local difference = start_date - get_now()
 
+            local time_to_event = ""
             if difference <= 0 then
-                return "Jetzt"
+                time_to_event = "Jetzt:"
             else
-                return "Nicht jetzt" --string.format("In %d Minuten:", difference / 60)
+                time_to_event = string.format("In %d Minuten:", difference / 60)
             end
-        end;
-        draw = function(time_to_event)
             CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
             print("TIME TO EVENT: ", time_to_event)
