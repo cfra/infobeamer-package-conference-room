@@ -157,12 +157,14 @@ function switcher(get_screens)
         if now > switch then
             print("Switching screen currently at ", current_idx)
             -- find next screen
-            current_idx = current_idx + 1
-            if current_idx > #screens then
-                screens = get_screens()
-                current_idx = 1
-            end
-            current = screens[current_idx]
+            repeat
+                current_idx = current_idx + 1
+                if current_idx > #screens then
+                    screens = get_screens()
+                    current_idx = 1
+                end
+                current = screens[current_idx]
+            until current.time ~= 0
             print("Switched to ", current_idx, " will stay there ", current.time, " seconds")
             switch = now + current.time
             current_state = current.prepare()
@@ -191,7 +193,7 @@ local content = switcher(function()
             CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
 
-            local start_date = 1432329300
+            local start_date = 1432329300 - 900
             local difference = start_date - get_now()
 
             local time_to_event = ""
