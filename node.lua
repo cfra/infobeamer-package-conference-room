@@ -72,12 +72,14 @@ function check_next_talk()
 
     print("PARSING talks")
     all_talks = {}
-    for room, talk in pairs(room_next) do
-        if current_talk and room ~= current_talk.place then
-            all_talks[#all_talks + 1] = talk
+    for idx,talk in ipairs(schedule) do
+        if talk.start_unix + 15 * 60 > now and talk.start_unix < now + 24 * 3600 then
+            if current_talk and talk.place ~= current_talk.place then
+                all_talks[#all_talks + 1] = talk
+            end
         end
     end
-    table.sort(all_talks, function(a, b) 
+    table.sort(all_talks, function(a, b)
         if a.start_unix < b.start_unix then
             return true
         elseif a.start_unix > b.start_unix then
