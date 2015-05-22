@@ -74,6 +74,7 @@ function check_next_talk()
     all_talks = {}
     for idx,talk in ipairs(schedule) do
         print("CHECKING talk:" .. talk.title)
+        print("Now its ", now, " and the talk starts at ", talk.start_unix)
         if talk.start_unix + 15 * 60 > now and talk.start_unix < now + 24 * 3600 then
             if current_talk and talk.place ~= current_talk.place then
                 all_talks[#all_talks + 1] = talk
