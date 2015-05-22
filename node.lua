@@ -305,6 +305,7 @@ local content = switcher(function()
             local time_sep = false
             if #all_talks > 0 then
                 for idx, talk in ipairs(all_talks) do
+                    print("adding talk: " .. talk.title)
                     if not time_sep and talk.start_unix > get_now() then
                         if idx > 1 then
                             y = y + 5
