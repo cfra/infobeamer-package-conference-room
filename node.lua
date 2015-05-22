@@ -170,12 +170,14 @@ function switcher(get_screens)
             old_screen = resource.create_snapshot()
 
             -- find next screen
-            current_idx = current_idx + 1
-            if current_idx > #screens then
-                screens = get_screens()
-                current_idx = 1
-            end
-            current = screens[current_idx]
+            repeat
+              current_idx = current_idx + 1
+              if current_idx > #screens then
+                  screens = get_screens()
+                  current_idx = 1
+              end
+              current = screens[current_idx]
+            until current.time ~= 0
             switch = now + current.time
             current_state = current.prepare()
 
