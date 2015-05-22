@@ -235,7 +235,7 @@ function switcher(get_screens)
     }
 end
 
-local content = switcher(function() 
+local content = switcher(function()
     return {{
         time = CONFIG.other_rooms,
         prepare = function()
@@ -338,60 +338,6 @@ local content = switcher(function()
             for _, func in ipairs(content) do
                 func()
             end
-        end
-    }, {
-        time = CONFIG.current_room,
-        prepare = function()
-        end;
-        draw = function()
-            if not current_talk then
-                CONFIG.font:write(400, 180, "Next talk", 80, CONFIG.foreground_color.rgba())
-                spacer:draw(0, 300, WIDTH, 302, 0.6)
-                CONFIG.font:write(400, 310, "Nope. That's it.", 50, CONFIG.foreground_color.rgba())
-            else
-                local delta = current_talk.start_unix - get_now()
-                if delta > 0 then
-                    CONFIG.font:write(400, 180, "Next talk", 80, CONFIG.foreground_color.rgba())
-                else
-                    CONFIG.font:write(400, 180, "This talk", 80, CONFIG.foreground_color.rgba())
-                end
-                spacer:draw(0, 280, WIDTH, 282, 0.6)
-
-                CONFIG.font:write(130, 310, current_talk.start_str, 50, CONFIG.foreground_color.rgba())
-                if delta > 180*60 then
-                    CONFIG.font:write(130, 310 + 60, string.format("in %d h", math.floor(delta/3660)+1), 50, CONFIG.foreground_color.rgb_with_a(0.6))
-                elseif delta > 0 then
-                    CONFIG.font:write(130, 310 + 60, string.format("in %d min", math.floor(delta/60)+1), 50, CONFIG.foreground_color.rgb_with_a(0.6))
-                end
-                for idx, line in ipairs(current_talk.slide_lines) do
-                    if idx >= 5 then
-                        break
-                    end
-                    CONFIG.font:write(400, 310 - 60 + 60 * idx, line, 50, CONFIG.foreground_color.rgba())
-                end
-                for i, speaker in ipairs(current_talk.speakers) do
-                    CONFIG.font:write(400, 490 + 50 * i, speaker, 50, CONFIG.foreground_color.rgb_with_a(0.6))
-                end
-            end
-        end
-    }, {
-        time = CONFIG.room_info,
-        prepare = function()
-        end;
-        draw = function(t)
-            CONFIG.font:write(400, 180, "Room information", 80, CONFIG.foreground_color.rgba())
-            spacer:draw(0, 280, WIDTH, 282, 0.6)
-            CONFIG.font:write(30, 300, "Audio", 50, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(400, 300, "Dial " .. current_room.dect, 50, CONFIG.foreground_color.rgba())
-
-            CONFIG.font:write(30, 360, "Translation", 50, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(400, 360, "Dial " .. current_room.translation, 50, CONFIG.foreground_color.rgba())
-
-            CONFIG.font:write(30, 460, "IRC", 50, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(400, 460, current_room.irc, 50, CONFIG.foreground_color.rgba())
-
-            CONFIG.font:write(30, 520, "Hashtag", 50, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(400, 520, current_room.hashtag, 50, CONFIG.foreground_color.rgba())
         end
     }}
 end)
