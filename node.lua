@@ -205,7 +205,7 @@ local content = switcher(function()
             print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
             -- CONFIG.font:write(40, 180, time_to_event, 90, CONFIG.foreground_color.rgba())
             CONFIG.font:write(40, 300, "Personen die sich mit Bungalow 134 assoziiert fuehlen moegen bitte ins", 35, CONFIG.foreground_color.rgba())
-	    CONFIG.font:write(40, 420, "Infocafe kommen", 35, CONFIG.foreground_color.rgba())
+	    CONFIG.font:write(40, 355, "Infocafe kommen", 35, CONFIG.foreground_color.rgba())
         end
     },
     {
