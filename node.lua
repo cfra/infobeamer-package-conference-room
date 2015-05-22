@@ -401,8 +401,8 @@ function node.render()
     CONFIG.background.ensure_loaded():draw(0, 0, WIDTH, HEIGHT)
 
     util.draw_correct(CONFIG.logo.ensure_loaded(), 20, 20, 300, 120)
-    CONFIG.font:write(400, 20, current_room.name_short, 100, CONFIG.foreground_color.rgba())
-    CONFIG.font:write(850, 20, clock.get(), 100, CONFIG.foreground_color.rgba())
+    -- CONFIG.font:write(400, 20, current_room.name_short, 100, CONFIG.foreground_color.rgba())
+    -- CONFIG.font:write(850, 20, clock.get(), 100, CONFIG.foreground_color.rgba())
     -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, CONFIG.foreground_color.rgba())
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
