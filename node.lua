@@ -180,6 +180,32 @@ end
 
 local content = switcher(function()
     return {{
+        -- Announcement, eg Plenum.
+        -- Update date in the prepare function and text in the draw function
+        -- use date -d 'May 25 23:00:00 2015' +%s
+        -- to get timestamp
+        time = 10,
+        prepare = function()
+        end;
+        draw = function()
+            CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
+            spacer:draw(0, 120, WIDTH, 122, 0.6)
+
+            local start_date = 1432587600
+            local difference = start_date - get_now()
+
+            local time_to_event = ""
+            if difference <= 0 then
+                time_to_event = "Jetzt:"
+            else
+                time_to_event = string.format("In %d Minuten:", difference / 60)
+            end
+            print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
+            CONFIG.font:write(40, 180, time_to_event, 30, CONFIG.foreground_color.rgba())
+            CONFIG.font:write(40, 240, "Plenum", 30, CONFIG.foreground_color.rgba())
+        end
+    },
+    {
         time = CONFIG.other_rooms,
         prepare = function()
             local content = {}
@@ -283,32 +309,6 @@ local content = switcher(function()
             for _, func in ipairs(content) do
                 func()
             end
-        end
-    },
-    {
-        -- Announcement, eg Plenum.
-        -- Update date in the prepare function and text in the draw function
-        -- use date -d 'May 25 23:00:00 2015' +%s
-        -- to get timestamp
-        time = 10,
-        prepare = function()
-        end;
-        draw = function()
-            CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
-            spacer:draw(0, 120, WIDTH, 122, 0.6)
-
-            local start_date = 1432587600
-            local difference = start_date - get_now()
-
-            local time_to_event = ""
-            if difference <= 0 then
-                time_to_event = "Jetzt:"
-            else
-                time_to_event = string.format("In %d Minuten:", difference / 60)
-            end
-            print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
-            CONFIG.font:write(40, 180, time_to_event, 30, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(40, 240, "Plenum", 30, CONFIG.foreground_color.rgba())
         end
     }}
 end)
