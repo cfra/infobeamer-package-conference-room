@@ -73,6 +73,7 @@ function check_next_talk()
     print("PARSING talks")
     all_talks = {}
     for idx,talk in ipairs(schedule) do
+        print("CHECKING talk:" .. talk.title)
         if talk.start_unix + 15 * 60 > now and talk.start_unix < now + 24 * 3600 then
             if current_talk and talk.place ~= current_talk.place then
                 all_talks[#all_talks + 1] = talk
