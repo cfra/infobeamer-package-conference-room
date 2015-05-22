@@ -73,7 +73,7 @@ function check_next_talk()
     print("PARSING talks")
     all_talks = {}
     for idx,talk in ipairs(schedule) do
-        if talk.start_unix + 15 * 60 > now and talk.start_unix < now + 24 * 3600 then
+        if talk.start_unix + 25 * 60 > now and talk.start_unix < now + 24 * 3600 then
             if not current_talk or talk.place ~= current_talk.place then
                 all_talks[#all_talks + 1] = talk
             end
@@ -296,12 +296,13 @@ local content = switcher(function()
             if difference <= 0 then
                 return "Jetzt"
             else
-                return string.format("In %d Minuten:", difference / 60)
+                return "Nicht jetzt" --string.format("In %d Minuten:", difference / 60)
             end
         end;
         draw = function(time_to_event)
             CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
+            print("TIME TO EVENT: ", time_to_event)
             CONFIG.font:write(40, 180, time_to_event, 30, CONFIG.foreground_color.rgba())
             CONFIG.font:write(40, 240, "Plenum", 30, CONFIG.foreground_color.rgba())
         end
