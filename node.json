@@ -23,7 +23,7 @@
         "ui_width": 4,
         "name": "font",
         "type": "font",
-        "default": "silkscreen.ttf"
+        "default": "roboto-bold.ttf"
     }, {
         "title": "Background",
         "ui_width": 4,
