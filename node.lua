@@ -182,7 +182,7 @@ local content = switcher(function()
     return {{
         -- Announcement, eg Plenum.
         -- Update date in the prepare function and text in the draw function
-        -- use date -d 'May 25 23:00:00 2015' +%s
+        -- use date -d 'May 22 23:00:00 2015' +%s
         -- to get timestamp
         time = 10,
         prepare = function()
@@ -191,12 +191,12 @@ local content = switcher(function()
             CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
 
-            local start_date = 1432587600
+            local start_date = 1432329300
             local difference = start_date - get_now()
 
             local time_to_event = ""
             if difference <= 0 then
-                time_to_event = "Jetzt:"
+                time_to_event = string.format("Seit %d Minuten:", difference / -60)
             else
                 time_to_event = string.format("In %d Minuten:", difference / 60)
             end
