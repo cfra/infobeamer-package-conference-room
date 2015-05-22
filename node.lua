@@ -186,7 +186,7 @@ local content = switcher(function()
         -- Update date in the prepare function and text in the draw function
         -- use date -d 'May 22 23:00:00 2015' +%s
         -- to get timestamp
-        time = 0,
+        time = 15,
         prepare = function()
         end;
         draw = function()
@@ -203,8 +203,9 @@ local content = switcher(function()
                 time_to_event = string.format("In %d Minuten:", difference / 60)
             end
             print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
-            CONFIG.font:write(40, 180, time_to_event, 90, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(40, 300, "Test Event", 90, CONFIG.foreground_color.rgba())
+            CONFIG.font:write(40, 180, "Die Person mit Schluessel fuer 24a moege sich bitte im Infocafe melden", 35, CONFIG.foreground_color.rgba())
+            -- CONFIG.font:write(40, 180, time_to_event, 90, CONFIG.foreground_color.rgba())
+            CONFIG.font:write(40, 300, "Die Person mit Schluessel fuer 66 moege sich bitte bei Bungalow 74 melden", 35, CONFIG.foreground_color.rgba())
         end
     },
     {
