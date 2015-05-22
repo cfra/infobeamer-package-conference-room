@@ -286,11 +286,24 @@ local content = switcher(function()
         end
     },
     {
+        -- Announcement, eg Plenum.
+        -- Update date in the prepare function and text in the draw function
         time = 10,
         prepare = function()
+            local start_date = os.time({tz='CEST', day=22, month=5, year=2015, hour=22, min=45, sec=0})
+            local difference = start_date - get_now()
+
+            if difference <= 0 then
+                return "Jetzt"
+            else
+                return string.format("In %d Minuten:", difference / 60)
+            end
         end;
-        draw = function()
-            CONFIG.font:write(40,360, "21:00: Plenum", 70, CONFIG.foreground_color.rgba())
+        draw = function(time_to_event)
+            CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
+            spacer:draw(0, 120, WIDTH, 122, 0.6)
+            CONFIG.font:write(40, 180, time_to_event, 30, CONFIG.foreground_color.rgba())
+            CONFIG.font:write(40, 240, "Plenum", 30, CONFIG.foreground_color.rgba())
         end
     }}
 end)
