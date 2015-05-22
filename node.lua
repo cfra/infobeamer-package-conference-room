@@ -155,6 +155,7 @@ function switcher(get_screens)
     local function prepare()
         local now = sys.now()
         if now > switch then
+            print("Switching screen currently at ", current_idx)
             -- find next screen
             current_idx = current_idx + 1
             if current_idx > #screens then
@@ -162,6 +163,7 @@ function switcher(get_screens)
                 current_idx = 1
             end
             current = screens[current_idx]
+            print("Switched to ", current_idx, " will stay there ", current.time, " seconds")
             switch = now + current.time
             current_state = current.prepare()
         end
