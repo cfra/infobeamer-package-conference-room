@@ -282,6 +282,14 @@ local content = switcher(function()
                 func()
             end
         end
+    },
+    {
+        time = 10,
+        prepare = function()
+        end;
+        draw = function()
+            CONFIG.font:write(40,360, "21:00: Plenum", 70, CONFIG.foreground_color.rgba())
+        end
     }}
 end)
 
