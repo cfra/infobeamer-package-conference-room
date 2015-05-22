@@ -247,7 +247,7 @@ local content = switcher(function()
                 end
             end
 
-            local y = 300
+            local y = 140
             local time_sep = false
             if #all_talks > 0 then
                 for idx, talk in ipairs(all_talks) do
