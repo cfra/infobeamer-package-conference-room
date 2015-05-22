@@ -274,8 +274,8 @@ local content = switcher(function()
             return content
         end;
         draw = function(content)
-            CONFIG.font:write(50, 20, "Programm", 100, CONFIG.foreground_color.rgba())
-            spacer:draw(0, 280, WIDTH, 282, 0.6)
+            CONFIG.font:write(40, 10, "Programm", 70, CONFIG.foreground_color.rgba())
+            spacer:draw(0, 120, WIDTH, 122, 0.6)
             for _, func in ipairs(content) do
                 func()
             end
@@ -295,9 +295,9 @@ function node.render()
 
     util.draw_correct(CONFIG.logo.ensure_loaded(), 20, 20, 300, 120)
     if current_room then
-        CONFIG.font:write(400, 20, current_room.name_short, 100, CONFIG.foreground_color.rgba())
+        CONFIG.font:write(400, 20, current_room.name_short, 70, CONFIG.foreground_color.rgba())
     end
-    CONFIG.font:write(850, 20, clock.get(), 100, CONFIG.foreground_color.rgba())
+    CONFIG.font:write(850, 20, clock.get(), 70, CONFIG.foreground_color.rgba())
     -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, CONFIG.foreground_color.rgba())
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
