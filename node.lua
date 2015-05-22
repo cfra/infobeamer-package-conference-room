@@ -149,31 +149,12 @@ function switcher(get_screens)
     local current_idx = 0
     local current
     local current_state
-
     local switch = sys.now()
-    local switched = sys.now()
-
-    local blend = 0.8
-    local mode = "switch"
-
-    local old_screen
-    local current_screen
-    
     local screens = get_screens()
 
     local function prepare()
         local now = sys.now()
-        if now > switch and mode == "show" then
-            mode = "switch"
-            switched = now
-
-            -- snapshot old screen
-            gl.clear(CONFIG.background_color.rgb_with_a(0.0))
-            if current then
-                current.draw(current_state)
-            end
-            old_screen = resource.create_snapshot()
-
+        if now > switch then
             -- find next screen
             current_idx = current_idx + 1
             if current_idx > #screens then
@@ -183,49 +164,11 @@ function switcher(get_screens)
             current = screens[current_idx]
             switch = now + current.time
             current_state = current.prepare()
-
-            -- snapshot next screen
-            gl.clear(CONFIG.background_color.rgb_with_a(0.0))
-            current.draw(current_state)
-            current_screen = resource.create_snapshot()
-        elseif now - switched > blend and mode == "switch" then
-            if current_screen then
-                current_screen:dispose()
-            end
-            if old_screen then
-                old_screen:dispose()
-            end
-            current_screen = nil
-            old_screen = nil
-            mode = "show"
         end
     end
-    
+
     local function draw()
-        local now = sys.now()
-
-        local percent = ((now - switched) / (switch - switched)) * 3.14129 * 2 - 3.14129
-        progress:use{percent = percent}
-        white:draw(WIDTH-50, HEIGHT-50, WIDTH-10, HEIGHT-10)
-        progress:deactivate()
-
-        if mode == "switch" then
-            local progress = (now - switched) / blend
-            gl.pushMatrix()
-            gl.translate(WIDTH/2, 0)
-            if progress < 0.5 then
-                gl.rotate(180 * progress, 0, 1, 0)
-                gl.translate(-WIDTH/2, 0)
-                old_screen:draw(0, 0, WIDTH, HEIGHT)
-            else
-                gl.rotate(180 + 180 * progress, 0, 1, 0)
-                gl.translate(-WIDTH/2, 0)
-                current_screen:draw(0, 0, WIDTH, HEIGHT)
-            end
-            gl.popMatrix()
-        else 
-            current.draw(current_state)
-        end
+        current.draw(current_state)
     end
     return {
         prepare = prepare;
@@ -299,7 +242,7 @@ local content = switcher(function()
 
                 return function()
                     CONFIG.font:write(30, y, talk.start_str, 50, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, rooms[talk.place].name_short, 50, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, talk.place, 50, CONFIG.foreground_color.rgb_with_a(alpha))
                     CONFIG.font:write(400, y, talk.title, 50, CONFIG.foreground_color.rgb_with_a(alpha))
                 end
             end
