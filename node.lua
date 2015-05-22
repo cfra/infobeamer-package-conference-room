@@ -260,12 +260,14 @@ local content = switcher(function()
                         end
                         time_sep = true
                     end
-                    if talk.lines then
-                        add_content(mk_talkmulti(y, talk, not time_sep))
-                    else
-                        add_content(mk_talk(y, talk, not time_sep))
+                    if y < 680 then
+                        if talk.lines then
+                            add_content(mk_talkmulti(y, talk, not time_sep))
+                        else
+                            add_content(mk_talk(y, talk, not time_sep))
+                        end
+                        y = y + 62
                     end
-                    y = y + 62
                 end
             else
                 CONFIG.font:write(400, 330, "No other talks.", 50, CONFIG.foreground_color.rgba())
