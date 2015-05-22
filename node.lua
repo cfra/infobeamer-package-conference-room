@@ -69,6 +69,7 @@ function check_next_talk()
         current_talk = nil
     end
 
+    print("PARSING talks")
     all_talks = {}
     for room, talk in pairs(room_next) do
         if current_talk and room ~= current_talk.place then
@@ -84,6 +85,7 @@ function check_next_talk()
             return a.place < b.place
         end
     end)
+    print("PARSED talks. Count: ", #all_talks)
 end
 
 function wrap(str, limit, indent, indent1)
