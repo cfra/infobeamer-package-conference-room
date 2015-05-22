@@ -220,10 +220,10 @@ local content = switcher(function()
                 local switch = sys.now() + 3
 
                 return function()
-                    CONFIG.font:write(30, y, talk.start_str, 50, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, rooms[talk.place].name_short, 50, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, top_line, 30, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y+28, bottom_line, 30, CONFIG.foreground_color.rgb_with_a(alpha*0.6))
+                    CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, talk.place, 30, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y, top_line, 24, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y+28, bottom_line, 24, CONFIG.foreground_color.rgb_with_a(alpha*0.6))
 
                     if sys.now() > switch then
                         next_line()
@@ -241,9 +241,9 @@ local content = switcher(function()
                 end
 
                 return function()
-                    CONFIG.font:write(30, y, talk.start_str, 50, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, talk.place, 50, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, talk.title, 50, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, talk.place, 30, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y, talk.title, 30, CONFIG.foreground_color.rgb_with_a(alpha))
                 end
             end
 
