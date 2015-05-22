@@ -15,6 +15,7 @@ local white = resource.create_colored_texture(1,1,1)
 util.file_watch("schedule.json", function(content)
     print("reloading schedule")
     schedule = json.decode(content)
+    print("loaded schedule. Len: ", #schedule)
 end)
 
 local rooms
