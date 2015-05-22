@@ -186,14 +186,14 @@ local content = switcher(function()
         -- Update date in the prepare function and text in the draw function
         -- use date -d 'May 22 23:00:00 2015' +%s
         -- to get timestamp
-        time = 0,
+        time = 10,
         prepare = function()
         end;
         draw = function()
             CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
 
-            local start_date = 1432329300 - 900
+            local start_date = 1432329600
             local difference = start_date - get_now()
 
             local time_to_event = ""
@@ -204,7 +204,7 @@ local content = switcher(function()
             end
             print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
             CONFIG.font:write(40, 180, time_to_event, 90, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(40, 300, "Plenum", 90, CONFIG.foreground_color.rgba())
+            CONFIG.font:write(40, 300, "Test Event", 90, CONFIG.foreground_color.rgba())
         end
     },
     {
