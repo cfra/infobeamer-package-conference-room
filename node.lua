@@ -274,7 +274,7 @@ local content = switcher(function()
             return content
         end;
         draw = function(content)
-            CONFIG.font:write(400, 180, "Other talks", 80, CONFIG.foreground_color.rgba())
+            CONFIG.font:write(200, 20, "pr0gram", 100, CONFIG.foreground_color.rgba())
             spacer:draw(0, 280, WIDTH, 282, 0.6)
             for _, func in ipairs(content) do
                 func()
