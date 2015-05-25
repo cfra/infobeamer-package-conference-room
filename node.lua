@@ -204,7 +204,7 @@ local content = switcher(function()
             end
             print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
             CONFIG.font:write(40, 180, time_to_event, 90, CONFIG.foreground_color.rgba())
-            CONFIG.font:write(40, 300, "faehrt der Erste Bus")
+            CONFIG.font:write(40, 300, "faehrt der Erste Bus", 90, CONFIG.foreground_color.rgba())
         end
     },
     {
