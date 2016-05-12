@@ -32,7 +32,7 @@ node.event("config_update", function(config)
         rooms[room.name] = room
         print("Adding room ", room.name, " = ", room.name_short)
     end
-    spacer = resource.create_colored_texture(CONFIG.act_foreground.rgba())
+    spacer = resource.create_colored_texture(act_foreground.rgba())
 end)
 
 hosted_init()
@@ -44,6 +44,8 @@ local day = 0
 
 local shift_x = 0
 local shift_y = 0
+local act_foreground = nil
+local act_background = nil
 
 function get_now()
     return base_time + sys.now()
@@ -165,11 +167,11 @@ function switcher(get_screens)
             shift_x = math.random(-20,20)
             shift_y = math.random(-20,20)
             if math.random(0,1) > 0 then
-                CONFIG.act_foreground = CONFIG.foreground_color
-                CONFIG.act_background = CONFIG.background_color
+                act_foreground = CONFIG.foreground_color
+                act_background = CONFIG.background_color
             else
-                CONFIG.act_background = CONFIG.foreground_color
-                CONFIG.act_foreground = CONFIG.background_color
+                act_background = CONFIG.foreground_color
+                act_foreground = CONFIG.background_color
             end
             print("Shifting by ", shift_x, "x", shift_y)
             repeat
@@ -205,7 +207,7 @@ local content = switcher(function()
         prepare = function()
         end;
         draw = function()
-            CONFIG.font:write(40, 10, "Ankündigung", 70, CONFIG.act_foreground.rgba())
+            CONFIG.font:write(40, 10, "Ankündigung", 70, act_foreground.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
 
             local start_date = 1432557000
@@ -218,8 +220,8 @@ local content = switcher(function()
                 time_to_event = string.format("In %d Minuten", difference / 60)
             end
             print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
-            CONFIG.font:write(40, 180, time_to_event, 90, CONFIG.act_foreground.rgba())
-            CONFIG.font:write(40, 300, "fährt der zweite Bus", 90, CONFIG.act_foreground.rgba())
+            CONFIG.font:write(40, 180, time_to_event, 90, act_foreground.rgba())
+            CONFIG.font:write(40, 300, "fährt der zweite Bus", 90, act_foreground.rgba())
         end
     },
     {
@@ -272,10 +274,10 @@ local content = switcher(function()
                         shortname = talk.place
                     end
 
-                    CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, shortname, 30, CONFIG.act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, top_line, 24, CONFIG.act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y+28, bottom_line, 24, CONFIG.act_foreground.rgb_with_a(alpha*0.6))
+                    CONFIG.font:write(30, y, talk.start_str, 30, act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, shortname, 30, act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y, top_line, 24, act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y+28, bottom_line, 24, act_foreground.rgb_with_a(alpha*0.6))
 
                     if sys.now() > switch then
                         next_line()
@@ -299,9 +301,9 @@ local content = switcher(function()
                 end
 
                 return function()
-                    CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, shortname, 30, CONFIG.act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, talk.title, 30, CONFIG.act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(30, y, talk.start_str, 30, act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, shortname, 30, act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y, talk.title, 30, act_foreground.rgb_with_a(alpha))
                 end
             end
 
@@ -328,13 +330,13 @@ local content = switcher(function()
                     end
                 end
             else
-                CONFIG.font:write(400, 330, "No other talks.", 50, CONFIG.act_foreground.rgba())
+                CONFIG.font:write(400, 330, "No other talks.", 50, act_foreground.rgba())
             end
 
             return content
         end;
         draw = function(content)
-            CONFIG.font:write(40, 10, "Programm", 70, CONFIG.act_foreground.rgba())
+            CONFIG.font:write(40, 10, "Programm", 70, act_foreground.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
             for _, func in ipairs(content) do
                 func()
@@ -350,7 +352,7 @@ function node.render()
 
     content.prepare()
 
-    CONFIG.act_background.clear()
+    act_background.clear()
     CONFIG.background.ensure_loaded():draw(0, 0, WIDTH, HEIGHT)
 
     gl.pushMatrix()
@@ -359,10 +361,10 @@ function node.render()
 
     util.draw_correct(CONFIG.logo.ensure_loaded(), 20, 20, 300, 120)
     if current_room then
-        CONFIG.font:write(400, 20, current_room.name_short, 70, CONFIG.act_foreground.rgba())
+        CONFIG.font:write(400, 20, current_room.name_short, 70, act_foreground.rgba())
     end
-    CONFIG.font:write(850, 20, clock.get(), 70, CONFIG.act_foreground.rgba())
-    -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, CONFIG.act_foreground.rgba())
+    CONFIG.font:write(850, 20, clock.get(), 70, act_foreground.rgba())
+    -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, act_foreground.rgba())
     gl.popMatrix()
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
