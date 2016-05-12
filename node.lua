@@ -164,7 +164,7 @@ function switcher(get_screens)
             -- find next screen
             shift_x = math.random(-20,20)
             shift_y = math.random(-20,20)
-            if CONFIG.act_foreground ~= CONFIG.foreground_color then
+            if math.random(0,1) > 0 then
                 CONFIG.act_foreground = CONFIG.foreground_color
                 CONFIG.act_background = CONFIG.background_color
             else
