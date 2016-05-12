@@ -42,6 +42,9 @@ local current_talk
 local all_talks = {}
 local day = 0
 
+local shift_x = 0
+local shift_y = 0
+
 function get_now()
     return base_time + sys.now()
 end
@@ -159,6 +162,8 @@ function switcher(get_screens)
         if now > switch then
             print("Switching screen currently at ", current_idx)
             -- find next screen
+            shift_x = math.random(-20,20)
+            shift_y = math.random(-20,20)
             repeat
                 current_idx = current_idx + 1
                 if current_idx > #screens then
@@ -325,16 +330,11 @@ local content = switcher(function()
             return content
         end;
         draw = function(content)
-            gl.pushMatrix()
-            gl.scale(0.95,0.95,1.0)
-            gl.translate(shift_x/10,shift_y/10,0.0)
-            CONFIG.font:write(850, 20, clock.get(), 70, CONFIG.foreground_color.rgba())
             CONFIG.font:write(40, 10, "Programm", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
             for _, func in ipairs(content) do
                 func()
             end
-            gl.popMatrix()
         end
     }}
 end)
@@ -349,14 +349,20 @@ function node.render()
     CONFIG.background_color.clear()
     CONFIG.background.ensure_loaded():draw(0, 0, WIDTH, HEIGHT)
 
+    gl.pushMatrix()
+    gl.scale(0.95,0.95,1.0)
+    gl.translate(shift_x/10,shift_y/10,0.0)
+
     util.draw_correct(CONFIG.logo.ensure_loaded(), 20, 20, 300, 120)
     if current_room then
         CONFIG.font:write(400, 20, current_room.name_short, 70, CONFIG.foreground_color.rgba())
     end
+    CONFIG.font:write(850, 20, clock.get(), 70, CONFIG.foreground_color.rgba())
     -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, CONFIG.foreground_color.rgba())
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
     gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
                         WIDTH/2, HEIGHT/2, 0)
     content.draw()
+    gl.popMatrix()
 end
