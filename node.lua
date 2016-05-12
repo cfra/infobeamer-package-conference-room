@@ -355,10 +355,14 @@ function node.render()
     end
     CONFIG.font:write(850, 20, clock.get(), 70, CONFIG.foreground_color.rgba())
     -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, CONFIG.foreground_color.rgba())
+    gl.popMatrix()
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
     gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
                         WIDTH/2, HEIGHT/2, 0)
+    gl.pushMatrix()
+    gl.scale(0.95,0.95,1.0)
+    gl.translate(shift_x,shift_y,0.0)
     content.draw()
     gl.popMatrix()
 end
