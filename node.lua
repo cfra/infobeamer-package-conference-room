@@ -22,6 +22,7 @@ local rooms
 local spacer = white
 
 node.event("config_update", function(config)
+    print("Processing config_update...")
     rooms = {}
     for idx, room in ipairs(config.rooms) do
         if room.serial == sys.get_env("SERIAL") then
@@ -29,6 +30,7 @@ node.event("config_update", function(config)
             current_room = room
         end
         rooms[room.name] = room
+        print("Adding room ", room.name, " = ", room)
     end
     spacer = resource.create_colored_texture(CONFIG.foreground_color.rgba())
 end)
