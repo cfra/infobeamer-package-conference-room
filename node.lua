@@ -255,6 +255,7 @@ local content = switcher(function()
                         shortname = rooms[talk.place].name_short
                     else
                         shortname = talk.place
+                    end
 
                     CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.foreground_color.rgb_with_a(alpha))
                     CONFIG.font:write(190, y, shortname, 30, CONFIG.foreground_color.rgb_with_a(alpha))
