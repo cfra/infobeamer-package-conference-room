@@ -217,10 +217,6 @@ local content = switcher(function()
     {
         time = CONFIG.other_rooms,
         prepare = function()
-            local shift_x = math.random(-20,20)
-            local shift_y = math.random(-20,20)
-            print("Shifting by ", shift_x, "x", shift_y)
-
             local content = {}
 
             local function add_content(func)
@@ -351,7 +347,7 @@ function node.render()
 
     gl.pushMatrix()
     gl.scale(0.95,0.95,1.0)
-    gl.translate(shift_x/10,shift_y/10,0.0)
+    gl.translate(shift_x,shift_y,0.0)
 
     util.draw_correct(CONFIG.logo.ensure_loaded(), 20, 20, 300, 120)
     if current_room then
