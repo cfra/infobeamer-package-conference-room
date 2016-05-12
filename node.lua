@@ -164,6 +164,7 @@ function switcher(get_screens)
             -- find next screen
             shift_x = math.random(-20,20)
             shift_y = math.random(-20,20)
+            print("Shifting by ", shift_x, "x", shift_y)
             repeat
                 current_idx = current_idx + 1
                 if current_idx > #screens then
