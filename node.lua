@@ -30,7 +30,7 @@ node.event("config_update", function(config)
             current_room = room
         end
         rooms[room.name] = room
-        print("Adding room ", room.name, " = ", room)
+        print("Adding room ", room.name, " = ", room.name_short)
     end
     spacer = resource.create_colored_texture(CONFIG.foreground_color.rgba())
 end)
@@ -272,6 +272,12 @@ local content = switcher(function()
             end
 
             local function mk_talk(y, talk, is_running)
+                local shortname
+                if rooms[talk.place] then
+                    shortname = rooms[talk.place].name_short
+                else
+                    shortname = talk.place
+                end
                 local alpha
                 if is_running then
                     alpha = 0.5
@@ -281,7 +287,7 @@ local content = switcher(function()
 
                 return function()
                     CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, talk.place, 30, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, shortname, 30, CONFIG.foreground_color.rgb_with_a(alpha))
                     CONFIG.font:write(400, y, talk.title, 30, CONFIG.foreground_color.rgb_with_a(alpha))
                 end
             end
