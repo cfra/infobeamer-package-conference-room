@@ -32,6 +32,9 @@ node.event("config_update", function(config)
         rooms[room.name] = room
         print("Adding room ", room.name, " = ", room.name_short)
     end
+
+    act_foreground = CONFIG.foreground_color
+    act_background = CONFIG.background_color
     spacer = resource.create_colored_texture(act_foreground.rgba())
 end)
 
@@ -44,8 +47,8 @@ local day = 0
 
 local shift_x = 0
 local shift_y = 0
-local act_foreground = nil
-local act_background = nil
+local act_foreground = CONFIG.foreground_color
+local act_background = CONFIG.background_color
 
 function get_now()
     return base_time + sys.now()
