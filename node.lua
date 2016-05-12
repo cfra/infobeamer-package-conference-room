@@ -214,6 +214,7 @@ local content = switcher(function()
         prepare = function()
             local shift_x = math.random(-20,20)
             local shift_y = math.random(-20,20)
+            print("Shifting by ", shift_x, "x", shift_y)
 
             local content = {}
 
@@ -326,7 +327,7 @@ local content = switcher(function()
         draw = function(content)
             gl.pushMatrix()
             gl.scale(0.95,0.95,1.0)
-            gl.translate(0.0,0.0,0.0)
+            gl.translate(shift_x/10,shift_y/10,0.0)
             CONFIG.font:write(850, 20, clock.get(), 70, CONFIG.foreground_color.rgba())
             CONFIG.font:write(40, 10, "Programm", 70, CONFIG.foreground_color.rgba())
             spacer:draw(0, 120, WIDTH, 122, 0.6)
