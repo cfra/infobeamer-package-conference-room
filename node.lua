@@ -208,7 +208,7 @@ local content = switcher(function()
         end
     },
     {
-        time = 0, --CONFIG.other_rooms,
+        time = CONFIG.other_rooms,
         prepare = function()
             local content = {}
 
