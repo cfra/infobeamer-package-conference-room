@@ -250,8 +250,14 @@ local content = switcher(function()
                 local switch = sys.now() + 3
 
                 return function()
+                    local shortname
+                    if rooms[talk.place] then
+                        shortname = rooms[talk.place].name_short
+                    else
+                        shortname = talk.place
+
                     CONFIG.font:write(30, y, talk.start_str, 30, CONFIG.foreground_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, talk.place, 30, CONFIG.foreground_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, shortname, 30, CONFIG.foreground_color.rgb_with_a(alpha))
                     CONFIG.font:write(400, y, top_line, 24, CONFIG.foreground_color.rgb_with_a(alpha))
                     CONFIG.font:write(400, y+28, bottom_line, 24, CONFIG.foreground_color.rgb_with_a(alpha*0.6))
 
