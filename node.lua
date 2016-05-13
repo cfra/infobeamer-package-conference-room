@@ -366,6 +366,7 @@ function node.render()
         speed_y = -speed_y
     end
 
+    print("shift_x = ", shift_x, "shift_y = ", shift_y, "speed_x = ", speed_x, "speed_y = ", speed_y)
     shift_x = shift_x + speed_x
     shift_y = shift_y + speed_y
 
