@@ -10,6 +10,16 @@ util.resource_loader{
     "progress.frag",
 }
 
+local changed_talks = {
+    "open space",
+    "FLTI im Male_stream HipHop",
+    "Kickboxen",
+    "Entdeckungsreise Programmieren",
+    "decolonial feminism",
+    "Was ist das für 1 Leckerei?"
+}
+
+
 local white = resource.create_colored_texture(1,1,1)
 
 util.file_watch("schedule.json", function(content)
@@ -301,7 +311,7 @@ local content = switcher(function()
                 end
             end
 
-            local function mk_talkmulti(y, talk, is_running)
+            local function mk_talkmulti(y, talk, is_running, changed)
                 local alpha
                 if is_running then
                     alpha = 0.5
@@ -336,10 +346,14 @@ local content = switcher(function()
                         shortname = talk.place
                     end
 
-                    CONFIG.font:write(30, y, talk.start_str, 30, act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, shortname, 30, act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, top_line, 24, act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y+28, bottom_line, 24, act_foreground.rgb_with_a(alpha*0.6))
+                    local talk_color = act_foreground
+                    if changed then
+                            talk_color = make_color(1.0,1.0,1.0,1.0)
+                    end
+                    CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(alpha*0.6))
 
                     if sys.now() > switch then
                         next_line()
@@ -348,7 +362,7 @@ local content = switcher(function()
                 end
             end
 
-            local function mk_talk(y, talk, is_running)
+            local function mk_talk(y, talk, is_running, changed)
                 local shortname
                 if rooms[talk.place] then
                     shortname = rooms[talk.place].name_short
@@ -362,10 +376,15 @@ local content = switcher(function()
                     alpha = 1.0
                 end
 
+                local talk_color = act_foreground
+                if changed then
+                    talk_color = make_color(1.0,1.0,1.0,1.0)
+                end
+
                 return function()
-                    CONFIG.font:write(30, y, talk.start_str, 30, act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, shortname, 30, act_foreground.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, talk.title, 30, act_foreground.rgb_with_a(alpha))
+                    CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
+                    CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
+                    CONFIG.font:write(400, y, talk.title, 30, talk_color.rgb_with_a(alpha))
                 end
             end
 
@@ -383,10 +402,16 @@ local content = switcher(function()
                         time_sep = true
                     end
                     if y < 680 then
+                        local talk_changed = false
+                        for idx2,changed in ipairs(changed_talks) do
+                            if talk.title == changed then
+                                talk_changed = true
+                            end
+                        end
                         if talk.lines then
-                            add_content(mk_talkmulti(y, talk, not time_sep))
+                            add_content(mk_talkmulti(y, talk, not time_sep, talk_changed))
                         else
-                            add_content(mk_talk(y, talk, not time_sep))
+                            add_content(mk_talk(y, talk, not time_sep, talk_changed))
                         end
                         y = y + 62
                     end
