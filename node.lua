@@ -47,7 +47,7 @@ end)
 node.event("child_remove", function(child_name)
     local new_children = {}
     print("Removing child ", child_name)
-    for child in children do
+    for idx,child in ipairs(children) do
         if child ~= child_name then
             new_children[#new_children + 1] = child
         end
@@ -389,7 +389,7 @@ local content = switcher(function()
             end
         end
     }}
-    for child in children do
+    for idx,child in ipairs(children) do
         rv[#rv + 1] = {
             time = 10,
             prepare = function()
