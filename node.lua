@@ -171,13 +171,18 @@ function switcher(get_screens)
             -- find next screen
             speed_x = math.random(-20,20) / 80
             speed_y = math.random(-10,10) / 80
-            if math.random(0,1) > 0 then
-                act_foreground = CONFIG.foreground_color
-                act_background = CONFIG.background_color
+            local color_sel = math.random(0,2)
+            if color_sel == 0 then
+                act_foreground = gl.Color(1,1,0.5,1)
+                act_background = gl.Color(0,0,0,1)
+            elseif color_sel == 1 then
+                act_foreground = gl.Color(0.5,1,1,1)
+                act_background = gl.Color(0,0,0,1)
             else
-                act_background = CONFIG.foreground_color
-                act_foreground = CONFIG.background_color
+                act_foreground = gl.Color(1,0.5,1,1)
+                act_background = gl.Color(0,0,0,1)
             end
+            spacer = resource.create_colored_texture(act_foreground.rgba())
             repeat
                 current_idx = current_idx + 1
                 if current_idx > #screens then
@@ -341,7 +346,7 @@ local content = switcher(function()
         end;
         draw = function(content)
             CONFIG.font:write(40, 10, "Programm", 70, act_foreground.rgba())
-            spacer:draw(0, 120, WIDTH, 122, 0.6)
+            --spacer:draw(0, 120, WIDTH, 122, 0.6)
             for _, func in ipairs(content) do
                 func()
             end
