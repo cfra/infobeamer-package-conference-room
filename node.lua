@@ -359,10 +359,10 @@ function node.render()
     act_background.clear()
     CONFIG.background.ensure_loaded():draw(0, 0, WIDTH, HEIGHT)
 
-    if shift_x + speed_x > 20 or shift_x + speed_x < 20 then
+    if shift_x + speed_x > 20 or shift_x + speed_x < -20 then
         speed_x = -speed_x
     end
-    if shift_y + speed_y > 10 or shift_y + speed_y < 10 then
+    if shift_y + speed_y > 10 or shift_y + speed_y < -10 then
         speed_y = -speed_y
     end
 
