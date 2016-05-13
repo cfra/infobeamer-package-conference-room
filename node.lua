@@ -16,8 +16,7 @@ local changed_talks = {
     "Kickboxen",
     "Entdeckungsreise Programmieren",
     "decolonial feminism",
-    "Was ist das für 1 Leckerei?",
-    "CLIT*ZER"
+    "Was ist das für 1 Leckerei?"
 }
 
 
