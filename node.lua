@@ -188,8 +188,8 @@ function switcher(get_screens)
         if now > switch then
             print("Switching screen currently at ", current_idx)
             -- find next screen
-            speed_x = math.random(-20,20) / 80
-            speed_y = math.random(-10,10) / 80
+            speed_x = math.random(-8,8) / 80
+            speed_y = math.random(-8,8) / 80
             local color_sel = math.random(0,2)
             if color_sel == 0 then
                 act_foreground = make_color(0.105,0.737,0.22,1)
