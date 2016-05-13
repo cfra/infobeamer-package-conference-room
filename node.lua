@@ -192,14 +192,14 @@ function switcher(get_screens)
             speed_y = math.random(-10,10) / 80
             local color_sel = math.random(0,2)
             if color_sel == 0 then
-                act_foreground = make_color(1,1,0.5,1)
-                act_background = make_color(0,0,0,1)
+                act_foreground = make_color(0.105,0.737,0.22,1)
+                act_background = make_color(0.086,0.086,0.094,1)
             elseif color_sel == 1 then
-                act_foreground = make_color(0.5,1,1,1)
-                act_background = make_color(0,0,0,1)
+                act_foreground = make_color(0.34,0.34,0.90,1)
+                act_background = make_color(0.086,0.086,0.094,1)
             else
-                act_foreground = make_color(1,0.5,1,1)
-                act_background = make_color(0,0,0,1)
+                act_foreground = make_color(0.93333,0.301,0.18,1)
+                act_background = make_color(0.086,0.086,0.094,1)
             end
             print("Color Color Color", act_foreground)
             spacer = resource.create_colored_texture(act_foreground.rgba())
