@@ -413,7 +413,9 @@ local content = switcher(function()
             prepare = function()
             end;
             draw = function()
-                resource.render_child(child):draw(0, 0, 1280, 720)
+                local frame = resource.render_child(child)
+                frame:draw(0,0,WIDTH,HEIGHT)
+                frame:dispose()
             end
         }
     end
