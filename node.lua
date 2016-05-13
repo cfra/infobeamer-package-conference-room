@@ -366,7 +366,7 @@ function node.render()
         speed_y = -speed_y
 
     shift_x = shift_x + speed_x
-    shift_y + shift_y + speed_y
+    shift_y = shift_y + speed_y
 
     gl.pushMatrix()
     gl.scale(0.95,0.95,1.0)
