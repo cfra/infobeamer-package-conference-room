@@ -38,6 +38,23 @@ node.event("config_update", function(config)
     spacer = resource.create_colored_texture(act_foreground.rgba())
 end)
 
+local children = {}
+node.event("child_add", function(child_name)
+    print("Adding child ", child_name)
+    children[#children + 1] = child_name
+end)
+
+node.event("child_remove", function(child_name)
+    local new_children = {}
+    print("Removing child ", child_name)
+    for idx,child in ipairs(children) do
+        if child ~= child_name then
+            new_children[#new_children + 1] = child
+        end
+    end
+    children = new_children
+end)
+
 hosted_init()
 
 local base_time = N.base_time or 0
@@ -227,7 +244,7 @@ function switcher(get_screens)
 end
 
 local content = switcher(function()
-    return {{
+    local rv = {{
         -- Announcement, eg Plenum.
         -- Update date in the prepare function and text in the draw function
         -- use date -d 'May 22 23:00:00 2015' +%s
@@ -372,6 +389,16 @@ local content = switcher(function()
             end
         end
     }}
+    for idx,child in ipairs(children) do
+        rv[#rv + 1] = {
+            time = 10,
+            prepare = function()
+            end;
+            draw = function()
+                resource.render_child(child):draw(0, 0, 1280, 720)
+            end
+        }
+    end
 end)
 
 function node.render()
