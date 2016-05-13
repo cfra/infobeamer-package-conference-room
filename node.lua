@@ -173,14 +173,14 @@ function switcher(get_screens)
             speed_y = math.random(-10,10) / 80
             local color_sel = math.random(0,2)
             if color_sel == 0 then
-                act_foreground = gl.Color(1,1,0.5,1)
-                act_background = gl.Color(0,0,0,1)
+                act_foreground = {1,1,0.5,1}
+                act_background = {0,0,0,1}
             elseif color_sel == 1 then
-                act_foreground = gl.Color(0.5,1,1,1)
-                act_background = gl.Color(0,0,0,1)
+                act_foreground = {0.5,1,1,1}
+                act_background = {0,0,0,1}
             else
-                act_foreground = gl.Color(1,0.5,1,1)
-                act_background = gl.Color(0,0,0,1)
+                act_foreground = {1,0.5,1,1}
+                act_background = {0,0,0,1}
             end
             spacer = resource.create_colored_texture(act_foreground.rgba())
             repeat
