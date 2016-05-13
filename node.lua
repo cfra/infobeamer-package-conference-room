@@ -47,6 +47,8 @@ local day = 0
 
 local shift_x = 0
 local shift_y = 0
+local speed_x = 0
+local speed_y = 0
 local act_foreground = CONFIG.foreground_color
 local act_background = CONFIG.background_color
 
@@ -167,8 +169,8 @@ function switcher(get_screens)
         if now > switch then
             print("Switching screen currently at ", current_idx)
             -- find next screen
-            shift_x = math.random(-20,20)
-            shift_y = math.random(-20,20)
+            speed_x = math.random(-20,20) / 100
+            speed_y = math.random(-20,20) / 100
             if math.random(0,1) > 0 then
                 act_foreground = CONFIG.foreground_color
                 act_background = CONFIG.background_color
@@ -176,7 +178,6 @@ function switcher(get_screens)
                 act_background = CONFIG.foreground_color
                 act_foreground = CONFIG.background_color
             end
-            print("Shifting by ", shift_x, "x", shift_y)
             repeat
                 current_idx = current_idx + 1
                 if current_idx > #screens then
@@ -357,6 +358,15 @@ function node.render()
 
     act_background.clear()
     CONFIG.background.ensure_loaded():draw(0, 0, WIDTH, HEIGHT)
+
+    if shift_x + speed_x > 20 or shift_x + speed_x < 20 then
+        speed_x = -speed_x
+    end
+    if shift_y + speed_y > 10 or shift_y + speed_y < 10 then
+        speed_y = -speed_y
+
+    shift_x = shift_x + speed_x
+    shift_y + shift_y + speed_y
 
     gl.pushMatrix()
     gl.scale(0.95,0.95,1.0)
