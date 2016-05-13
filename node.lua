@@ -52,6 +52,25 @@ local speed_y = 0
 local act_foreground = CONFIG.foreground_color
 local act_background = CONFIG.background_color
 
+function make_color(r,g,b,a)
+    local color = {}
+    color.r = r
+    color.g = g
+    color.b = b
+    color.a = a
+    color.rgba_table = {color.r, color.g, color.b, color.a}
+    color.rgba = function()
+        return color.r, color.g, color.b, color.a
+    end
+    color.rgb_with_a = function(alpha)
+        return color.r, color.g, color.b, alpha
+    end
+    color.clear = function()
+        gl.clear(color.r, color.g, color.b, color.a)
+    end
+    return color
+end
+
 function get_now()
     return base_time + sys.now()
 end
@@ -171,17 +190,17 @@ function switcher(get_screens)
             -- find next screen
             speed_x = math.random(-20,20) / 80
             speed_y = math.random(-10,10) / 80
---            local color_sel = math.random(0,2)
---            if color_sel == 0 then
---                act_foreground = {1,1,0.5,1}
---                act_background = {0,0,0,1}
---            elseif color_sel == 1 then
---                act_foreground = {0.5,1,1,1}
---                act_background = {0,0,0,1}
---            else
---                act_foreground = {1,0.5,1,1}
---                act_background = {0,0,0,1}
---            end
+            local color_sel = math.random(0,2)
+            if color_sel == 0 then
+                act_foreground = make_color(1,1,0.5,1)
+                act_background = make_color(0,0,0,1)
+            elseif color_sel == 1 then
+                act_foreground = make_color(0.5,1,1,1)
+                act_background = make_color(0,0,0,1)
+            else
+                act_foreground = make_color(1,0.5,1,1)
+                act_background = make_color(0,0,0,1)
+            end
             print("Color Color Color", act_foreground)
             spacer = resource.create_colored_texture(act_foreground.rgba())
             repeat
