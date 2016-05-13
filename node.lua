@@ -364,6 +364,7 @@ function node.render()
     end
     if shift_y + speed_y > 10 or shift_y + speed_y < 10 then
         speed_y = -speed_y
+    end
 
     shift_x = shift_x + speed_x
     shift_y = shift_y + speed_y
