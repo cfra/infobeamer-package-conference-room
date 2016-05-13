@@ -38,13 +38,29 @@ node.event("config_update", function(config)
     spacer = resource.create_colored_texture(act_foreground.rgba())
 end)
 
+function true_child(name)
+    if name == "dateutil" then
+        return false
+    end
+    if name == "defusedxml" then
+        return false
+    end
+    return true
+end
+
 local children = {}
 node.event("child_add", function(child_name)
+    if not true_child(child_name) then
+        return
+    end
     print("Adding child ", child_name)
     children[#children + 1] = child_name
 end)
 
 node.event("child_remove", function(child_name)
+    if not true_child(child_name) then
+        return
+    end
     local new_children = {}
     print("Removing child ", child_name)
     for idx,child in ipairs(children) do
