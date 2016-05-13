@@ -399,6 +399,7 @@ local content = switcher(function()
             end
         }
     end
+    return rv
 end)
 
 function node.render()
