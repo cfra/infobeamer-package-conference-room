@@ -291,7 +291,7 @@ local content = switcher(function()
             elseif difference < 100 then
                 time_to_event = string.format("In %d Minuten", difference / 60)
             else
-                time_to_event = string.format("In %f.1 Stunden", difference / 3600)
+                time_to_event = string.format("In %.1f Stunden", difference / 3600)
             end
             print("TIME TO EVENT: ", time_to_event, " START: ", start_date, " NOW: ", get_now())
             CONFIG.font:write(40, 180, time_to_event .. " (16:15) Plenum", 90, act_foreground.rgba())
