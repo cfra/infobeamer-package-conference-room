@@ -130,6 +130,7 @@ function check_next_talk()
     for room, talk in pairs(room_next) do
         talk.slide_lines = wrap(talk.title, 30)
 
+        print("Talk " .. talk.title .. " has rendered length ", CONFIG.font:width(talk.title, 30))
         if CONFIG.font:width(talk.title, 30) > 860 then
             talk.lines = wrap(talk.title, 60)
             if #talk.lines == 1 then
