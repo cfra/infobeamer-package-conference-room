@@ -357,11 +357,11 @@ local content = switcher(function()
                     CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
                     CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
                     CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(alpha*0.6))
+                    CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(alpha))
 
                     if sys.now() > switch then
                         next_line()
-                        switch = sys.now() + 1
+                        switch = sys.now() + 3
                     end
                 end
             end
