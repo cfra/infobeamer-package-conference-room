@@ -129,14 +129,6 @@ function check_next_talk()
 
     for room, talk in pairs(room_next) do
         talk.slide_lines = wrap(talk.title, 30)
-
-        print("Talk " .. talk.title .. " has rendered length ", CONFIG.font:width(talk.title, 30))
-        if CONFIG.font:width(talk.title, 30) > 860 then
-            talk.lines = wrap(talk.title, 60)
-            if #talk.lines == 1 then
-                talk.lines[2] = table.concat(talk.speakers, ", ")
-            end
-        end
     end
 
     if current_room and room_next[current_room.name] then
@@ -150,6 +142,13 @@ function check_next_talk()
     for idx,talk in ipairs(schedule) do
         if talk.start_unix + 25 * 60 > now and talk.start_unix < now + 24 * 3600 then
             if not current_talk or talk.place ~= current_talk.place then
+                print("Talk " .. talk.title .. " has rendered length ", CONFIG.font:width(talk.title, 30))
+                if CONFIG.font:width(talk.title, 30) > 860 then
+                    talk["lines"] = wrap(talk.title, 60)
+                    if #talk.lines == 1 then
+                        talk.lines[2] = table.concat(talk.speakers, ", ")
+                    end
+                end
                 all_talks[#all_talks + 1] = talk
             end
         end
