@@ -276,7 +276,7 @@ local content = switcher(function()
         -- Update date in the prepare function and text in the draw function
         -- use date -d 'May 22 23:00:00 2015' +%s
         -- to get timestamp
-        time = 15,
+        time = 0,
         prepare = function()
         end;
         draw = function()
