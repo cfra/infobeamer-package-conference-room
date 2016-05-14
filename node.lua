@@ -130,7 +130,7 @@ function check_next_talk()
     for room, talk in pairs(room_next) do
         talk.slide_lines = wrap(talk.title, 30)
 
-        if #talk.title > 25 then
+        if CONFIG.font:width(talk.title, 30) > 860 then
             talk.lines = wrap(talk.title, 60)
             if #talk.lines == 1 then
                 talk.lines[2] = table.concat(talk.speakers, ", ")
