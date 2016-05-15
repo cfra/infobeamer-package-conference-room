@@ -341,6 +341,38 @@ function mk_talk(y, talk, is_running, changed)
     end
 end
 
+function talk_drawer(talks)
+    local content = {}
+
+    local function add_content(func)
+        content[#content+1] = func
+    end
+
+    local y = 140
+    if #talks > 0 then
+        for idx, talk in ipairs(talks) do
+            if y < 680 then
+                local talk_changed = false
+                for idx2,changed in ipairs(changed_talks) do
+                    if talk.title == changed then
+                        talk_changed = true
+                    end
+                end
+                if talk.lines then
+                    add_content(mk_talkmulti(y, talk, not time_sep, talk_changed))
+                else
+                    add_content(mk_talk(y, talk, not time_sep, talk_changed))
+                end
+                y = y + 62
+            end
+        end
+    else
+        CONFIG.font:write(400, 330, "nichts", 50, act_foreground.rgba())
+    end
+
+    return content
+end
+
 local content = switcher(function()
     local rv = {{
         -- Announcement, eg Plenum.
@@ -375,54 +407,23 @@ local content = switcher(function()
     {
         time = CONFIG.other_rooms,
         prepare = function()
-            local content = {}
-
-            local function add_content(func)
-                content[#content+1] = func
-            end
-
-            local function mk_spacer(y)
-                return function()
-                    spacer:draw(0, y, WIDTH, y+2, 0.6)
-                end
-            end
-
-            local y = 140
-            local time_sep = false
-            if #all_talks > 0 then
-                for idx, talk in ipairs(all_talks) do
-                    print("adding talk: " .. talk.title)
-                    if not time_sep and talk.start_unix > get_now() then
-                        if idx > 1 then
-                            y = y + 5
-                            add_content(mk_spacer(y))
-                            y = y + 20
-                        end
-                        time_sep = true
-                    end
-                    if y < 680 then
-                        local talk_changed = false
-                        for idx2,changed in ipairs(changed_talks) do
-                            if talk.title == changed then
-                                talk_changed = true
-                            end
-                        end
-                        if talk.lines then
-                            add_content(mk_talkmulti(y, talk, not time_sep, talk_changed))
-                        else
-                            add_content(mk_talk(y, talk, not time_sep, talk_changed))
-                        end
-                        y = y + 62
-                    end
-                end
-            else
-                CONFIG.font:write(400, 330, "No other talks.", 50, act_foreground.rgba())
-            end
-
-            return content
+            return talk_drawer(cur_talks)
         end;
         draw = function(content)
-            CONFIG.font:write(40, 10, "Programm", 70, act_foreground.rgba())
+            CONFIG.font:write(40, 10, "Momentan", 70, act_foreground.rgba())
+            --spacer:draw(0, 120, WIDTH, 122, 0.6)
+            for _, func in ipairs(content) do
+                func()
+            end
+        end
+    },
+    {
+        time = CONFIG.other_rooms,
+        prepare = function()
+            return talk_drawer(all_talks)
+        end;
+        draw = function(content)
+            CONFIG.font:write(40, 10, "Demnächst", 70, act_foreground.rgba())
             --spacer:draw(0, 120, WIDTH, 122, 0.6)
             for _, func in ipairs(content) do
                 func()
