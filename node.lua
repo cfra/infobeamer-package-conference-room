@@ -332,6 +332,12 @@ function mk_talk(y, talk, is_running, changed)
     if changed then
         talk_color = make_color(1.0,1.0,1.0,1.0)
     end
+    local time_str
+    if show_end then
+        time_str = "bis " .. clock:format(talk.end_unix)
+    else
+        time_str = talk.start_str
+    end
 
     return function()
         CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(1.0))
