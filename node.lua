@@ -192,6 +192,7 @@ local clock = (function()
     }
 
     local function format(input)
+        print("Input: ", input)
         local time = input % 86400
         return string.format("%d:%02d", math.floor(time / 3600), math.floor(time % 3600 / 60))
     end
