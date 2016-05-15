@@ -191,14 +191,19 @@ local clock = (function()
         end;
     }
 
-    local function get()
-        local time = (base_time + sys.now()) % 86400
+    local function format(input)
+        local time = input % 86400
         return string.format("%d:%02d", math.floor(time / 3600), math.floor(time % 3600 / 60))
+    end
+
+    local function get()
+        return format(base_time + sys.now())
     end
 
     return {
         get = get;
         set = set;
+        format = format;
     }
 end)()
 
@@ -265,7 +270,7 @@ function switcher(get_screens)
     }
 end
 
-function mk_talkmulti(y, talk, is_running, changed)
+function mk_talkmulti(y, talk, is_running, changed, show_end)
     local line_idx = 999999
     local top_line
     local bottom_line
@@ -297,7 +302,13 @@ function mk_talkmulti(y, talk, is_running, changed)
         if changed then
                 talk_color = make_color(1.0,1.0,1.0,1.0)
         end
-        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(1.0))
+        local time_str
+        if show_end then
+            time_str = "bis " .. clock:format(talk.end_unix)
+        else
+            time_str = talk.start_str
+        end
+        CONFIG.font:write(30, y, time_str, 30, talk_color.rgb_with_a(1.0))
         CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(1.0))
         CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(1.0))
         CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(1.0))
@@ -329,7 +340,7 @@ function mk_talk(y, talk, is_running, changed)
     end
 end
 
-function talk_drawer(talks)
+function talk_drawer(talks, show_end)
     local content = {}
 
     local function add_content(func)
@@ -347,9 +358,9 @@ function talk_drawer(talks)
                     end
                 end
                 if talk.lines then
-                    add_content(mk_talkmulti(y, talk, not time_sep, talk_changed))
+                    add_content(mk_talkmulti(y, talk, not time_sep, talk_changed, show_end))
                 else
-                    add_content(mk_talk(y, talk, not time_sep, talk_changed))
+                    add_content(mk_talk(y, talk, not time_sep, talk_changed, show_end))
                 end
                 y = y + 62
             end
@@ -395,7 +406,7 @@ local content = switcher(function()
     {
         time = CONFIG.other_rooms,
         prepare = function()
-            return talk_drawer(cur_talks)
+            return talk_drawer(cur_talks, true)
         end;
         draw = function(content)
             CONFIG.font:write(40, 10, "Momentan", 70, act_foreground.rgba())
@@ -408,7 +419,7 @@ local content = switcher(function()
     {
         time = CONFIG.other_rooms,
         prepare = function()
-            return talk_drawer(all_talks)
+            return talk_drawer(all_talks, false)
         end;
         draw = function(content)
             CONFIG.font:write(40, 10, "Demnächst", 70, act_foreground.rgba())
