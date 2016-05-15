@@ -444,6 +444,7 @@ local content = switcher(function()
     end
 
     -- Show current talks screen variably depending on current talk count
+    print("Showing ", #cur_talks, " current talks")
     rv[2].time = 3 * #cur_talks
     if rv[2].time > 30 then
         rv[2].time = 30
