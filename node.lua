@@ -134,6 +134,7 @@ function check_next_talk()
 
     print("PARSING talks")
     all_talks = {}
+    cur_talks = {}
     for idx,talk in ipairs(schedule) do
         talk.title, _ = talk.title:gsub("\t"," ")
         if CONFIG.font:width(talk.title, 30) > 860 then
@@ -265,13 +266,6 @@ function switcher(get_screens)
 end
 
 function mk_talkmulti(y, talk, is_running, changed)
-    local alpha
-    if is_running then
-        alpha = 0.5
-    else
-        alpha = 1.0
-    end
-
     local line_idx = 999999
     local top_line
     local bottom_line
@@ -303,10 +297,10 @@ function mk_talkmulti(y, talk, is_running, changed)
         if changed then
                 talk_color = make_color(1.0,1.0,1.0,1.0)
         end
-        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
-        CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
-        CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(alpha))
-        CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(1.0))
+        CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(1.0))
+        CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(1.0))
+        CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(1.0))
 
         if sys.now() > switch then
             next_line()
@@ -322,12 +316,6 @@ function mk_talk(y, talk, is_running, changed)
     else
         shortname = talk.place
     end
-    local alpha
-    if is_running then
-        alpha = 0.5
-    else
-        alpha = 1.0
-    end
 
     local talk_color = act_foreground
     if changed then
@@ -335,9 +323,9 @@ function mk_talk(y, talk, is_running, changed)
     end
 
     return function()
-        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
-        CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
-        CONFIG.font:write(400, y, talk.title, 30, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(1.0))
+        CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(1.0))
+        CONFIG.font:write(400, y, talk.title, 30, talk_color.rgb_with_a(1.0))
     end
 end
 
