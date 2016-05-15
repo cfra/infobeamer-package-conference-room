@@ -405,7 +405,7 @@ local content = switcher(function()
         end
     },
     {
-        time = 15,
+        time = 0,
         prepare = function()
             return talk_drawer(cur_talks, true)
         end;
