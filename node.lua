@@ -142,6 +142,7 @@ function check_next_talk()
     all_talks = {}
     for idx,talk in ipairs(schedule) do
         if talk.start_unix + 25 * 60 > now and talk.start_unix < now + 24 * 3600 then
+            talk.title, _ = talk.title:gsub("\t"," ")
             if not current_talk or talk.place ~= current_talk.place then
                 print("Talk " .. talk.title .. " has rendered length ", CONFIG.font:width(talk.title, 30))
                 if CONFIG.font:width(talk.title, 30) > 860 then
