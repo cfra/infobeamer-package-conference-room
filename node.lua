@@ -191,20 +191,14 @@ local clock = (function()
         end;
     }
 
-    local function format(input_time)
-        print("Input: ", input_time)
-        local time = input % 86400
-        return string.format("%d:%02d", math.floor(time / 3600), math.floor(time % 3600 / 60))
-    end
-
     local function get()
-        return format(base_time + sys.now())
+        local time = (base_time + sys.now()) % 86400
+        return string.format("%d:%02d", math.floor(time / 3600), math.floor(time % 3600 / 60))
     end
 
     return {
         get = get;
         set = set;
-        format = format;
     }
 end)()
 
@@ -305,7 +299,7 @@ function mk_talkmulti(y, talk, is_running, changed, show_end)
         end
         local time_str
         if show_end then
-            time_str = "bis " .. clock:format(talk.end_unix)
+            time_str = "bis " .. talk.end_str
         else
             time_str = talk.start_str
         end
