@@ -320,7 +320,7 @@ function mk_talkmulti(y, talk, is_running, changed, show_end)
     end
 end
 
-function mk_talk(y, talk, is_running, changed)
+function mk_talk(y, talk, is_running, changed, show_end)
     local shortname
     if rooms[talk.place] then
         shortname = rooms[talk.place].name_short
@@ -340,7 +340,7 @@ function mk_talk(y, talk, is_running, changed)
     end
 
     return function()
-        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(1.0))
+        CONFIG.font:write(30, y, time_str, 30, talk_color.rgb_with_a(1.0))
         CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(1.0))
         CONFIG.font:write(400, y, talk.title, 30, talk_color.rgb_with_a(1.0))
     end
@@ -410,7 +410,7 @@ local content = switcher(function()
         end
     },
     {
-        time = CONFIG.other_rooms,
+        time = 15,
         prepare = function()
             return talk_drawer(cur_talks, true)
         end;
@@ -447,6 +447,13 @@ local content = switcher(function()
             end
         }
     end
+
+    -- Show current talks screen variably depending on current talk count
+    rv[1].time = 3 * #cur_talks
+    if rv[1].time > 30 then
+        rv[1].time = 30
+    end
+
     return rv
 end)
 
