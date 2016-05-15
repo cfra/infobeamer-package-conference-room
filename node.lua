@@ -85,7 +85,6 @@ end)
 hosted_init()
 
 local base_time = N.base_time or 0
-local current_talk
 local all_talks = {}
 local day = 0
 
@@ -132,27 +131,20 @@ function check_next_talk()
         talk.slide_lines = wrap(talk.title, 30)
     end
 
-    if current_room and room_next[current_room.name] then
-        current_talk = room_next[current_room.name]
-    else
-        current_talk = nil
-    end
-
     print("PARSING talks")
     all_talks = {}
     for idx,talk in ipairs(schedule) do
-        if talk.start_unix + 25 * 60 > now and talk.start_unix < now + 24 * 3600 then
-            talk.title, _ = talk.title:gsub("\t"," ")
-            if not current_talk or talk.place ~= current_talk.place then
-                print("Talk " .. talk.title .. " has rendered length ", CONFIG.font:width(talk.title, 30))
-                if CONFIG.font:width(talk.title, 30) > 860 then
-                    talk["lines"] = wrap(talk.title, 60)
-                    if #talk.lines == 1 then
-                        talk.lines[2] = table.concat(talk.speakers, ", ")
-                    end
-                end
-                all_talks[#all_talks + 1] = talk
+        talk.title, _ = talk.title:gsub("\t"," ")
+        if CONFIG.font:width(talk.title, 30) > 860 then
+            talk["lines"] = wrap(talk.title, 60)
+            if #talk.lines == 1 then
+                talk.lines[2] = table.concat(talk.speakers, ", ")
             end
+        end
+        if talk.start_unix > now and talk.start_unix < now + 24 * 3600 then
+            all_talks[#all_talks + 1] = talk
+        elseif talk.start_unix < now and talk.end_unix + 15 * 60 > now then
+            cur_talks[#cur_talks + 1] = talk
         end
     end
     table.sort(all_talks, function(a, b)
@@ -271,6 +263,83 @@ function switcher(get_screens)
     }
 end
 
+function mk_talkmulti(y, talk, is_running, changed)
+    local alpha
+    if is_running then
+        alpha = 0.5
+    else
+        alpha = 1.0
+    end
+
+    local line_idx = 999999
+    local top_line
+    local bottom_line
+    local function next_line()
+        line_idx = line_idx + 1
+        if line_idx > #talk.lines then
+            line_idx = 2
+            top_line = talk.lines[1]
+            bottom_line = talk.lines[2] or ""
+        else
+            top_line = bottom_line
+            bottom_line = talk.lines[line_idx]
+        end
+    end
+
+    next_line()
+
+    local switch = sys.now() + 3
+
+    return function()
+        local shortname
+        if rooms[talk.place] then
+            shortname = rooms[talk.place].name_short
+        else
+            shortname = talk.place
+        end
+
+        local talk_color = act_foreground
+        if changed then
+                talk_color = make_color(1.0,1.0,1.0,1.0)
+        end
+        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(alpha))
+
+        if sys.now() > switch then
+            next_line()
+            switch = sys.now() + 3
+        end
+    end
+end
+
+function mk_talk(y, talk, is_running, changed)
+    local shortname
+    if rooms[talk.place] then
+        shortname = rooms[talk.place].name_short
+    else
+        shortname = talk.place
+    end
+    local alpha
+    if is_running then
+        alpha = 0.5
+    else
+        alpha = 1.0
+    end
+
+    local talk_color = act_foreground
+    if changed then
+        talk_color = make_color(1.0,1.0,1.0,1.0)
+    end
+
+    return function()
+        CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
+        CONFIG.font:write(400, y, talk.title, 30, talk_color.rgb_with_a(alpha))
+    end
+end
+
 local content = switcher(function()
     local rv = {{
         -- Announcement, eg Plenum.
@@ -314,83 +383,6 @@ local content = switcher(function()
             local function mk_spacer(y)
                 return function()
                     spacer:draw(0, y, WIDTH, y+2, 0.6)
-                end
-            end
-
-            local function mk_talkmulti(y, talk, is_running, changed)
-                local alpha
-                if is_running then
-                    alpha = 0.5
-                else
-                    alpha = 1.0
-                end
-
-                local line_idx = 999999
-                local top_line
-                local bottom_line
-                local function next_line()
-                    line_idx = line_idx + 1
-                    if line_idx > #talk.lines then
-                        line_idx = 2
-                        top_line = talk.lines[1]
-                        bottom_line = talk.lines[2] or ""
-                    else
-                        top_line = bottom_line
-                        bottom_line = talk.lines[line_idx]
-                    end
-                end
-
-                next_line()
-
-                local switch = sys.now() + 3
-
-                return function()
-                    local shortname
-                    if rooms[talk.place] then
-                        shortname = rooms[talk.place].name_short
-                    else
-                        shortname = talk.place
-                    end
-
-                    local talk_color = act_foreground
-                    if changed then
-                            talk_color = make_color(1.0,1.0,1.0,1.0)
-                    end
-                    CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, top_line, 24, talk_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y+28, bottom_line, 24, talk_color.rgb_with_a(alpha))
-
-                    if sys.now() > switch then
-                        next_line()
-                        switch = sys.now() + 3
-                    end
-                end
-            end
-
-            local function mk_talk(y, talk, is_running, changed)
-                local shortname
-                if rooms[talk.place] then
-                    shortname = rooms[talk.place].name_short
-                else
-                    shortname = talk.place
-                end
-                local alpha
-                if is_running then
-                    alpha = 0.5
-                else
-                    alpha = 1.0
-                end
-
-                local talk_color = act_foreground
-                if changed then
-                    talk_color = make_color(1.0,1.0,1.0,1.0)
-                end
-
-                return function()
-                    CONFIG.font:write(30, y, talk.start_str, 30, talk_color.rgb_with_a(alpha))
-                    CONFIG.font:write(190, y, shortname, 30, talk_color.rgb_with_a(alpha))
-                    CONFIG.font:write(400, y, talk.title, 30, talk_color.rgb_with_a(alpha))
                 end
             end
 
