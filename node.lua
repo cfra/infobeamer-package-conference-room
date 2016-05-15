@@ -329,7 +329,7 @@ function mk_talk(y, talk, is_running, changed, show_end)
     end
     local time_str
     if show_end then
-        time_str = "bis " .. clock:format(talk.end_unix)
+        time_str = "bis " .. talk.end_str
     else
         time_str = talk.start_str
     end
