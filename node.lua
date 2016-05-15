@@ -86,6 +86,7 @@ hosted_init()
 
 local base_time = N.base_time or 0
 local all_talks = {}
+local cur_talks = {}
 local day = 0
 
 local shift_x = 0
