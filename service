@@ -78,7 +78,7 @@ def main():
             return False, None
 
         with file("moving_text.new", "wb") as f:
-            f.write(resp.splitlines()[0].strip())
+            f.write(moving_text.splitlines()[0].strip())
         os.rename("moving_text.new", "moving_text")
 
         print >>sys.stderr, "updated moving text"
