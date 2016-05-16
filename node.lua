@@ -31,7 +31,7 @@ end)
 
 local mt_str = ""
 local mt_width = 0
-local mt_speed = 5
+local mt_speed = 3
 local mt_pos = WIDTH + mt_speed
 util.file_watch("moving_text", function(content)
     print("reloading moving_text")
