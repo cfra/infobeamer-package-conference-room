@@ -29,6 +29,17 @@ util.file_watch("schedule.json", function(content)
     print("loaded schedule. Len: ", #schedule)
 end)
 
+local mt_str = ""
+local mt_width = 0
+local mt_speed = 5
+local mt_pos = WIDTH + mt_speed
+util.file_watch("moving_text", function(content)
+    print("reloading moving_text")
+    mt_str = content
+    mt_width = CONFIG.font:width(mt_str, 60)
+    mt_pos = WIDTH + mt_speed
+end)
+
 local rooms
 local spacer = white
 
@@ -453,6 +464,20 @@ local content = switcher(function()
     return rv
 end)
 
+function draw_moving_text()
+    if mt_str:len() == 0 then
+        return
+    end
+
+    mt_pos = mt_pos - mt_speed
+
+    if mt_pos + mt_width < 0 then
+        mt_pos = WIDTH
+    end
+
+    CONFIG.font.write(mt_pos, 600, mt_str, 50, act_foreground.rgba())
+end
+
 function node.render()
     if base_time == 0 then
         return
@@ -493,4 +518,6 @@ function node.render()
     gl.translate(shift_x,shift_y,0.0)
     content.draw()
     gl.popMatrix()
+
+    draw_moving_text()
 end

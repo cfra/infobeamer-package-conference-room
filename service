@@ -67,6 +67,20 @@ def main():
 
         print >>sys.stderr, "updated schedule"
 
+        print >>sys.stderr, "updating moving text"
+        try:
+            resp = urllib2.urlopen("http://nowhere.ws/dump/announce.txt")
+            moving_text = resp.read()
+        except Exception, err:
+            traceback.print_exc()
+            return False, None
+
+        with file("moving_text.new", "wb") as f:
+            f.write(resp.splitlines()[0].strip())
+        os.rename("moving_text.new", "moving_text")
+
+        print >>sys.stderr, "updated moving text"
+
         for i in xrange(60):
             now, ts = current_time()
             print >>sys.stderr, "time is", now, ts
