@@ -486,8 +486,8 @@ function draw_moving_text()
         mt_pos = WIDTH
     end
 
-    white:draw(0,630, WIDTH, 720, 0.6)
-    CONFIG.font:write(mt_pos, 650, mt_str, 50, act_foreground.rgba())
+    white:draw(0,630, WIDTH, 720, 0.75)
+    CONFIG.font:write(mt_pos, 650, mt_str, 50, {0.1,0.1,0.1,0})
 end
 
 function node.render()
