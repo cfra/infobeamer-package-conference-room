@@ -125,6 +125,7 @@ function make_color(r,g,b,a)
     end
     return color
 end
+local black = make_color(0,0,0,0)
 
 function get_now()
     return base_time + sys.now()
@@ -270,9 +271,15 @@ function switcher(get_screens)
     local function draw()
         current.draw(current_state)
     end
+
+    local function get_current()
+        return current_idx
+    end
+
     return {
         prepare = prepare;
         draw = draw;
+        get_current = get_current;
     }
 end
 
@@ -479,7 +486,8 @@ function draw_moving_text()
         mt_pos = WIDTH
     end
 
-    CONFIG.font:write(mt_pos, 600, mt_str, 50, act_foreground.rgba())
+    white:draw(0,630, WIDTH, 720, 0.6)
+    CONFIG.font:write(mt_pos, 650, mt_str, 50, act_foreground.rgba())
 end
 
 function node.render()
@@ -523,5 +531,7 @@ function node.render()
     content.draw()
     gl.popMatrix()
 
-    draw_moving_text()
+    if content.get_current() < 4 then
+        draw_moving_text()
+    end
 end
