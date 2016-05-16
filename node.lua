@@ -36,8 +36,8 @@ local mt_pos = WIDTH + mt_speed
 util.file_watch("moving_text", function(content)
     print("reloading moving_text")
     mt_str = content
-    mt_width = CONFIG.font:width(mt_str, 60)
     mt_pos = WIDTH + mt_speed
+    mt_width = 0
 end)
 
 local rooms
@@ -467,6 +467,10 @@ end)
 function draw_moving_text()
     if mt_str:len() == 0 then
         return
+    end
+
+    if mt_width == 0 then
+        mt_width = CONFIG.font:width(mt_str, 60)
     end
 
     mt_pos = mt_pos - mt_speed
