@@ -1,4 +1,4 @@
-gl.setup(1280, 720)
+gl.setup(1024, 768)
 
 sys.set_flag("slow_gc")
 
@@ -149,7 +149,7 @@ function check_next_talk()
     cur_talks = {}
     for idx,talk in ipairs(schedule) do
         talk.title, _ = talk.title:gsub("\t"," ")
-        if CONFIG.font:width(talk.title, 30) > 860 then
+        if CONFIG.font:width(talk.title, 30) > 604 then
             talk["lines"] = wrap(talk.title, 60)
             if #talk.lines == 1 then
                 talk.lines[2] = table.concat(talk.speakers, ", ")
@@ -369,7 +369,7 @@ function talk_drawer(talks, show_end)
     local y = 140
     if #talks > 0 then
         for idx, talk in ipairs(talks) do
-            if y < 680 then
+            if y < 728 then
                 local talk_changed = false
                 for idx2,changed in ipairs(changed_talks) do
                     if talk.title == changed then
@@ -486,9 +486,9 @@ function draw_moving_text()
         mt_pos = WIDTH
     end
 
-    white:draw(0,630, WIDTH, 720, 0.6)
+    white:draw(0,678, WIDTH, HEIGHT, 0.6)
     local dark = make_color(0.1,0.1,0.1,1.0)
-    CONFIG.font:write(mt_pos, 650, mt_str, 50, dark.rgba())
+    CONFIG.font:write(mt_pos, 698, mt_str, 50, dark.rgba())
 end
 
 function node.render()
