@@ -511,9 +511,9 @@ function node.render()
     shift_x = shift_x + speed_x
     shift_y = shift_y + speed_y
 
-    gl.pushMatrix()
-    gl.scale(0.95,0.95,1.0)
-    gl.translate(shift_x,shift_y,0.0)
+    --gl.pushMatrix()
+    --gl.scale(0.95,0.95,1.0)
+    --gl.translate(shift_x,shift_y,0.0)
 
     util.draw_correct(CONFIG.logo.ensure_loaded(), 20, 20, 300, 120)
     if current_room then
@@ -521,16 +521,16 @@ function node.render()
     end
     CONFIG.font:write(850, 20, clock.get(), 70, act_foreground.rgba())
     -- font:write(WIDTH-300, 20, string.format("Day %d", day), 100, act_foreground.rgba())
-    gl.popMatrix()
+    --gl.popMatrix()
 
     local fov = math.atan2(HEIGHT, WIDTH*2) * 360 / math.pi
     gl.perspective(fov, WIDTH/2, HEIGHT/2, -WIDTH,
                         WIDTH/2, HEIGHT/2, 0)
-    gl.pushMatrix()
-    gl.scale(0.95,0.95,1.0)
-    gl.translate(shift_x,shift_y,0.0)
+    --gl.pushMatrix()
+    --gl.scale(0.95,0.95,1.0)
+    --gl.translate(shift_x,shift_y,0.0)
     content.draw()
-    gl.popMatrix()
+    --gl.popMatrix()
 
     if content.get_current() < 4 then
         draw_moving_text()
