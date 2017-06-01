@@ -147,6 +147,10 @@ function check_next_talk()
     print("PARSING talks")
     all_talks = {}
     cur_talks = {}
+    cutoff = now + 24 * 3600
+    if cutoff < 1496448000 then
+        cutoff = 1496448000
+    end
     for idx,talk in ipairs(schedule) do
         talk.title, _ = talk.title:gsub("\t"," ")
         if CONFIG.font:width(talk.title, 30) > 604 then
@@ -155,7 +159,7 @@ function check_next_talk()
                 talk.lines[2] = table.concat(talk.speakers, ", ")
             end
         end
-        if talk.start_unix > now and talk.start_unix < now + 24 * 3600 then
+        if talk.start_unix > now and talk.start_unix < cutoff then
             all_talks[#all_talks + 1] = talk
         elseif talk.start_unix < now and talk.end_unix + 15 * 60 > now then
             cur_talks[#cur_talks + 1] = talk
