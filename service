@@ -37,7 +37,7 @@ def send_clock(now, ts):
 def update_moving_text():
     print >>sys.stderr, "updating moving text"
     try:
-        resp = urllib2.urlopen("http://nowhere.ws/dump/announce.txt")
+        resp = urllib2.urlopen("http://nowhere.ws/dump/announce.txt", timeout=8)
         moving_text = resp.read()
     except Exception, err:
         traceback.print_exc()
@@ -89,7 +89,7 @@ def main():
             now, ts = current_time()
             print >>sys.stderr, "time is", now, ts
             send_clock(now, ts)
-            if i % 10 == 0:
+            if i % 3 == 0:
                 update_moving_text()
             time.sleep(10)
 
