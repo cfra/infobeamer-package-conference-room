@@ -17,7 +17,8 @@ local changed_talks = {
     "Entdeckungsreise Programmieren",
     "decolonial feminism",
     "Was ist das für 1 Leckerei?",
-    "Sachsen: ein sicheres Herkunftsland."
+    "Sachsen: ein sicheres Herkunftsland.",
+    "Ich lebe, also ergreife ich Partei oder It‘s partytime, baby, isn’t it?"
 }
 
 
