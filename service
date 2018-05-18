@@ -34,22 +34,6 @@ def send_clock(now, ts):
     NODE.send('/clock/set:%f' % ts)
     NODE.send('/clock/midnight:%f' % since_midnight)
 
-def update_moving_text():
-    print >>sys.stderr, "updating moving text"
-    try:
-        resp = urllib2.urlopen("http://nowhere.ws/dump/announce.txt", timeout=8)
-        moving_text = resp.read()
-    except Exception, err:
-        traceback.print_exc()
-        return
-
-    with file("moving_text.new", "wb") as f:
-        f.write(moving_text.splitlines()[0].strip())
-    os.rename("moving_text.new", "moving_text")
-
-    print >>sys.stderr, "updated moving text"
-
-
 def main():
     while 1:
         now, ts = current_time()
@@ -89,8 +73,6 @@ def main():
             now, ts = current_time()
             print >>sys.stderr, "time is", now, ts
             send_clock(now, ts)
-            if i % 3 == 0:
-                update_moving_text()
             time.sleep(10)
 
 if __name__ == "__main__":
