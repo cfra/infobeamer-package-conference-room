@@ -460,7 +460,7 @@ local content = switcher(function()
             end
         }
         if string.sub(child, 1, string.len(photo_child)) == photo_child then
-                local time = (base_time + sys.now()) % 1800
+                local time = (base_time + sys.now()) % 900
                 if time < 120 then
                     app.time = 60
                     rv[#rv + 1] = app
