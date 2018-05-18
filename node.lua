@@ -11,14 +11,7 @@ util.resource_loader{
 }
 
 local changed_talks = {
-    "open space",
-    "FLTI im Male_stream HipHop",
-    "Kickboxen",
-    "Entdeckungsreise Programmieren",
-    "decolonial feminism",
-    "Was ist das für 1 Leckerei?",
-    "Sachsen: ein sicheres Herkunftsland.",
-    "Ich lebe, also ergreife ich Partei oder It‘s partytime, baby, isn’t it?"
+    "DUMMY",
 }
 
 
